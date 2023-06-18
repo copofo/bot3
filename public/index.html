@@ -1,0 +1,85 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>WhatsApp Web</title>
+</head>
+<body>
+  <h1>WhatsApp Web</h1>
+  <p id="status-message"></p>
+  <div id="qrcode"></div>
+  
+
+
+  <script>
+    const socket = new WebSocket('ws://localhost:8080');
+
+    socket.onopen = function() {
+      console.log('Conexão WebSocket estabelecida.');
+
+      // Solicitar o QR Code
+      socket.send('request_qrcode');
+    };
+
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+
+      if (data.type === 'qrcode') {
+        const qrCodeElement = document.getElementById('qrcode');
+        qrCodeElement.innerHTML = `<img src="${data.qrCode}" alt="QR Code" />`;
+      }
+    };
+  </script>
+
+  
+  
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <title>Web Service</title>
+
+
+  <style>
+
+
+
+    h1,p,div{
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Conecta Web Service</h1>
+  <p id="status-message">Conectando ao servidor...</p>
+  <div id="qrcode"></div>
+  
+  <script>
+    const socket = new WebSocket('ws://localhost:8080');
+    const statusMessageElement = document.getElementById('status-message');
+    
+    socket.onopen = function() {
+
+      statusMessageElement.innerHTML = 'Conexão com o servidor estabelecida! O QR Code está sendo gerado. Por favor, aguarde...'
+      console.log('Conexão WebSocket estabelecida.');
+
+      // Solicitar o QR Code
+      socket.send('request_qrcode');
+    };
+
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+
+      if (data.type === 'qrcode') {
+        const qrCodeElement = document.getElementById('qrcode');
+        qrCodeElement.innerHTML = `<img src="${data.qrCode}" alt="QR Code" />`;
+
+        // Remover a mensagem de status
+        statusMessageElement.style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html>
+
